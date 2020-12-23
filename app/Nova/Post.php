@@ -33,8 +33,15 @@ class Post extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'title', 'description', 'author', 'user_id'
     ];
+
+    public static function scoutQuery(NovaRequest $request, $query)
+    {
+        return $query;
+    }
+
+    public static $scoutSearchResults = 20;
 
     /**
      * Get the fields displayed by the resource.
@@ -48,7 +55,7 @@ class Post extends Resource
             ID::make(__('ID'), 'id')->sortable(),
 
             Text::make('Title')
-            ->required(true),
+                ->required(true),
 
             Text::make('Body'),
 
@@ -57,8 +64,10 @@ class Post extends Resource
             Text::make('Author'),
 
             Image::make('Image'),
-            
-            BelongsTo::make('Belong To', 'user', 'App\Nova\User'),
+
+            BelongsTo::make('Belong To', 'user', 'App\Nova\User')
+                ->searchable()
+                ->withSubtitles(),
         ];
     }
 
