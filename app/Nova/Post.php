@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
@@ -10,6 +11,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Post extends Resource
 {
+    public static $group = 'Menu';
+
     /**
      * The model the resource corresponds to.
      *
@@ -44,7 +47,8 @@ class Post extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('Title'),
+            Text::make('Title')
+            ->required(true),
 
             Text::make('Body'),
 
@@ -52,7 +56,9 @@ class Post extends Resource
 
             Text::make('Author'),
 
-            Image::make('Image')
+            Image::make('Image'),
+            
+            BelongsTo::make('Belong To', 'user', 'App\Nova\User'),
         ];
     }
 
