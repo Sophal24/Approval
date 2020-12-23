@@ -9,7 +9,7 @@ use Approval\Traits\RequiresApproval;
 class Post extends Model
 {
     use HasFactory;
-    use RequiresApproval;
+    // use RequiresApproval;
 
     protected $table = 'posts';
 
