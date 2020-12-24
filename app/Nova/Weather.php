@@ -2,14 +2,14 @@
 
 namespace App\Nova;
 
+use App\Nova\Lenses\Under25Degree;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Weather extends Resource
 {
     public static $group = 'Menu';
 
@@ -18,19 +18,14 @@ class User extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Weather::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
-
-    public function subtitle()
-    {
-        return "Email: {$this->email}";
-    }
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -38,8 +33,13 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'description', 'max_tem', 'min_tem'
     ];
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->orderBy('id', 'desc');
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -50,26 +50,33 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
 
-            // Gravatar::make()->maxWidth(50),
+            Text::make('Description')
+                ->hideFromIndex(),
+                
+            Text::make('Description')
+                ->displayUsing(function () {
+                    $length = strlen($this->description);
+                    if($length > 35){
+                        return substr($this->description, 0, 35) . '...';
+                    }
+                    return $this->description;
+                })
+                ->onlyOnIndex(),
 
-            Avatar::make('Avatar', 'image'),
+            Text::make('max_tem'),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Text::make('min_tem'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+            Text::make('day_rain'),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+            Text::make('night_rain'),
+
+            // Date::make('Date')
+            // ->format('ddd DD MM YYYY')
+
+
         ];
     }
 
@@ -103,7 +110,9 @@ class User extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Under25Degree()
+        ];
     }
 
     /**
@@ -120,6 +129,6 @@ class User extends Resource
     // Or simply return it as a string
     public static function icon()
     {
-        return '<svg class="w-6 h-6" style="color: #33FFF6;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>';
+        return '<svg class="w-6 h-6" style="color: #33FFF6;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path></svg>';
     }
 }
