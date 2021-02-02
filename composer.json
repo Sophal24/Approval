@@ -15,6 +15,7 @@
         "php": "^7.3|^8.0",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
         "chris-ware/nova-clock-card": "^1.2",
+        "david-griffiths/nova-dark-theme": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "gregoriohc/laravel-nova-theme-responsive": "^0.8.1",
@@ -26,6 +27,7 @@
         "stephenlake/laravel-approval": "^1.1"
     },
     "require-dev": {
+        "brianium/paratest": "^6.2",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.2",
