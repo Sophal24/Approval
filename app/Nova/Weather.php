@@ -12,6 +12,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Weather extends Resource
 {
     public static $group = 'Menu';
+    public static $tableStyle = 'tight';
 
     /**
      * The model the resource corresponds to.
