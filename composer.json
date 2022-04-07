@@ -6,13 +6,15 @@
         "framework",
         "laravel"
     ],
-    "repositories": [{
-        "type": "path",
-        "url": "./nova"
-    }],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        }
+    ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "anaseqal/nova-sidebar-icons": "^0.0.3",
         "chris-ware/nova-clock-card": "^1.2",
         "david-griffiths/nova-dark-theme": "^1.0",
@@ -21,9 +23,9 @@
         "gregoriohc/laravel-nova-theme-responsive": "^0.8.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
-        "laravel/nova": "*",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
+        "laravel/nova": "*",
         "stephenlake/laravel-approval": "^1.1"
     },
     "require-dev": {
